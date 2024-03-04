@@ -1,0 +1,91 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>List of Members</h1>
+<div class="position-absolute" style="top: 1rem; right: 1rem">
+    <a href="{% url 'member_new' %}"><button class="btn btn-primary">New Member</button></a>
+</div>
+<div class="mx-auto mb-5 p-2 bg-white border border-black rounded">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Birth Date</th>
+                <th scope="col">Category</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in members %}
+            <tr>
+                <td>{{ member.id }}</td>
+                <td>{{ member.full_name }}</td>
+                <td>{{ member.phone }}</td>
+                <td>{{ member.birth_date }}</td>
+                <td>
+                    {% if member.category %}
+                    {% for cat, badge_class in category_badges.items %}
+                    {% if member.category == cat %}
+                    <span class="badge text-bg-{{ badge_class }}">
+                        {{ member.category }}
+                    </span>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="row g-2">
+                        <div class="col">
+                            <a href="{% url 'member_edit' member.id %}">
+                                <button type="button" class="btn btn-warning btn-sm btn-rounded">
+                                    Edit
+                                </button>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <!-- Botón Eliminar con Modal de Confirmación -->
+                            <button type="button" class="btn btn-danger btn-sm btn-rounded" data-bs-toggle="modal"
+                                data-bs-target="#confirmDelete{{ member.id }}">
+                                Delete
+                            </button>
+                            <!-- Modal de Confirmación -->
+                            <div class="modal fade" id="confirmDelete{{ member.id }}" tabindex="-1"
+                                aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="confirmDeleteLabel">
+                                                Confirm Deletion
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to remove this member:
+                                            {{ member.full_name }}?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Cancel
+                                            </button>
+                                            <!-- Enlace para Eliminar -->
+                                            <form action="{% url 'member_delete' member.id %}">
+                                                <button type="submit" class="btn btn-danger">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Fin Modal de Confirmación -->
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

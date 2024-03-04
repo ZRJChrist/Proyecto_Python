@@ -1,0 +1,99 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>List of Books</h1>
+<div class="position-absolute" style="top: 1rem; right: 1rem">
+  <a href="{% url 'book_new' %}"
+    ><button class="btn btn-primary">New Book</button></a
+  >
+</div>
+<div class="mx-auto mb-5 p-2 border bg-white border-black rounded">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Member</th>
+        <th scope="col">Court</th>
+        <th scope="col">Date</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in books %}
+      <tr>
+        <td>{{ book.id }}</td>
+        <td>{{ book.member.full_name }}</td>
+        <td>{{ book.court.description }}</td>
+        <td>{{ book.date }}</td>
+
+        <td>
+          <div class="row g-2">
+            <div class="col">
+              <a href="{% url 'book_edit' book.id %}">
+                <button
+                  type="button"
+                  class="btn btn-warning btn-sm btn-rounded"
+                >
+                  Edit
+                </button>
+              </a>
+            </div>
+            <div class="col">
+              <button
+                type="button"
+                class="btn btn-danger btn-sm btn-rounded"
+                data-bs-toggle="modal"
+                data-bs-target="#confirmDelete{{ book.id }}"
+              >
+                Delete
+              </button>
+              <div
+                class="modal fade"
+                id="confirmDelete{{ book.id }}"
+                tabindex="-1"
+                aria-labelledby="confirmDeleteLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="confirmDeleteLabel">
+                        Confirm Deletion
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      Are you sure you want to remove this book?
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Cancel
+                      </button>
+                      <!-- Enlace para Eliminar -->
+                      <form action="{% url 'book_delete' book.id %}">
+                        <button type="submit" class="btn btn-danger">
+                          Delete
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Fin Modal de Confirmación -->
+            </div>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

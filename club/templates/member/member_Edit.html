@@ -1,0 +1,43 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Edit Member</h1>
+<div class="position-absolute" style="top: 1rem; right: 1rem">
+  <a href="{% url 'member_all' %}"
+    ><button class="btn btn-info">List Members</button></a
+  >
+</div>
+<div class="w-50 mb-5 mx-auto bg-white border border-black p-2 rounded">
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-floating mb-3">
+      {{ form.full_name }}
+      <label for="id_full_name">Name and Lastname</label>
+      {% if form.errors.full_name %}
+      <div class="text-danger mt-2">{{ form.errors.full_name }}</div>
+      {% endif %}
+    </div>
+    <div class="form-floating mb-3">
+      {{ form.phone }}
+      <label for="id_phone">Number Phone (123456789)</label>
+      {% if form.errors.phone %}
+      <div class="text-danger mt-2">{{ form.errors.phone }}</div>
+      {% endif %}
+    </div>
+    <div class="form-floating mb-3">
+      {{ form.birth_date }}
+      <label for="id_birth_date">Birth Date</label>
+      {% if form.errors.birth_date %}
+      <div class="text-danger mt-2">{{ form.errors.birth_date }}</div>
+      {% endif %}
+    </div>
+    <div class="form-floating mb-3">
+      {{ form.category }}
+      <label for="id_category">Category:</label>
+      {% if form.errors.category %}
+      <div class="text-danger mt-2">{{ form.errors.category }}</div>
+      {% endif %}
+    </div>
+    <button type="submit" class="btn btn-dark">Submit</button>
+  </form>
+</div>
+{% endblock %}

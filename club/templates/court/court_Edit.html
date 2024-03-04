@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Edit Court</h1>
+<div class="position-absolute" style="top: 1rem; right: 1rem">
+  <a href="{% url 'court_all' %}"
+    ><button class="btn btn-info">List Courts</button></a
+  >
+</div>
+<div class="w-50 mb-5 mx-auto bg-white border border-black p-2 rounded">
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-floating mb-3">
+      {{ form.description }}
+      <label for="id_description">Description</label>
+      {% if form.errors.description %}
+      <div class="text-danger mt-2">{{ form.errors.description }}</div>
+      {% endif %}
+    </div>
+    <div class="form-floating mb-3">
+      {{ form.type }}
+      <label for="id_type">Type</label>
+      {% if form.errors.type %}
+      <div class="text-danger mt-2">{{ form.errors.type }}</div>
+      {% endif %}
+    </div>
+    <button type="submit" class="btn btn-dark">Submit</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{
+    "sqltools.useNodeRuntime": true,
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "proyect_python",
+            "database": "${workspaceFolder:project_christopher_jrz}/db.sqlite3"
+        }
+    ]
+}
